@@ -1,0 +1,42 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/cerulean/bootstrap.css" />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 10px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<html>
+<head>
+    <title>Student Registration</title>
+</head>
+
+<body>
+    <h3>Student Registration Form</h3>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary"> Submit </button>
+    </form>
+
+    <br>
+    <br>
+
+    <a href="{% url 'index' %}">Home</a>
+    <a href="{% url 'studentForm' %}">Student Registration</a>
+    <a href="{% url 'teacherForm' %}">Teacher Registration</a>
+</body>
+</html>

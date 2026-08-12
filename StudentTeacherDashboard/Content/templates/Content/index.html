@@ -1,0 +1,60 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/cerulean/bootstrap.css" />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 10px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<html>
+<head><title></title></head>
+
+<body>
+    <h2>Content</h2>
+    <h3>Teachers</h3>
+
+    {% if teachers %}
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Teaching Area(s)</th>
+        </tr>
+        {% for teacher in teachers %}
+        <tr>
+            <td>{{teacher.name}}</td>
+            <td>{{teacher.email}}</td>
+            <td>
+                {% for area in teacher.areas.all %} {{area.name}}{% if not forloop.last %},
+                {% endif %}
+                {% empty %} No teaching areas selected.
+                {% endfor %}
+            </td>
+
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    No data!
+    {% endif %}
+
+    <br>
+    <br>
+
+    <a href="{% url 'index' %}">Home</a>
+    <a href="{% url 'studentForm' %}">Student Registration</a>
+    <a href="{% url 'teacherForm' %}">Teacher Registration</a>
+</body>
+</html>

@@ -29,6 +29,16 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Content\admin.py" />
+    <Compile Include="Content\apps.py" />
+    <Compile Include="Content\forms.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Content\migrations\__init__.py" />
+    <Compile Include="Content\models.py" />
+    <Compile Include="Content\tests.py" />
+    <Compile Include="Content\views.py" />
+    <Compile Include="Content\__init__.py" />
     <Compile Include="manage.py" />
     <Compile Include="StudentTeacherDashboard\__init__.py" />
     <Compile Include="StudentTeacherDashboard\settings.py" />
@@ -36,9 +46,16 @@
     <Compile Include="StudentTeacherDashboard\wsgi.py" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\templates\Content\index.html" />
+    <Content Include="Content\templates\Content\studentForm.html" />
+    <Content Include="Content\templates\Content\teacherForm.html" />
     <Content Include="requirements.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\" />
+    <Folder Include="Content\migrations\" />
+    <Folder Include="Content\templates\" />
+    <Folder Include="Content\templates\Content\" />
     <Folder Include="StudentTeacherDashboard\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Django.targets" />
