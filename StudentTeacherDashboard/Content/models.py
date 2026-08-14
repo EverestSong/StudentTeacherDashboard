@@ -10,10 +10,13 @@ class Subject(models.Model):
 class Teacher(models.Model):
     name = models.CharField(max_length=25)
     email = models.EmailField(max_length=100, unique=True)
-    areas = models.ManyToManyField(Subject, blank=True) 
+    department = models.CharField(max_length=40)
+    subjects = models.ManyToManyField(Subject, blank=True) 
 
 class Student(models.Model):
     name = models.CharField(max_length=25)
     email = models.EmailField(max_length=100, unique=True)
+    #guardian_email = models.EmailField(max_length=100)
     date_of_birth = models.DateField(default=timezone.now)
+    #year_level = models.IntegerField()
     subjects = models.ManyToManyField(Subject, blank=True) 

@@ -9,7 +9,12 @@ from django.db import models
 class TeacherForm(forms.ModelForm):
     class Meta: 
         model = Teacher
-        fields = ['name', 'email', 'areas']
+        fields = ['name', 'email', 'department', 'subjects']
+
+        widgets = {
+            'email': forms.EmailInput(attrs={'size': '26'}),     
+            'department': forms.TextInput(attrs={'placeholder': 'e.g. Mathematics'}),     
+        }
 
 class StudentForm(forms.ModelForm):
     date_of_birth = forms.DateField()

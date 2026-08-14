@@ -30,22 +30,25 @@
         <tr>
             <th>Name</th>
             <th>Email</th>
-            <th>Teaching Area(s)</th>
+            <th>Department</th>
+            <th>Subjects</th>
         </tr>
         {% for teacher in teachers %}
         <tr>
             <td>{{teacher.name}}</td>
             <td>{{teacher.email}}</td>
+            <td>{{teacher.department}}</td>
             <td>
-                {% for area in teacher.areas.all %} {{area.name}}{% if not forloop.last %},
+                {% for subject in teacher.subjects.all %} {{subject.name}}{% if not forloop.last %},
                 {% endif %}
-                {% empty %} No teaching areas selected.
+                {% empty %} No subjects selected.
                 {% endfor %}
             </td>
 
         </tr>
         {% endfor %}
     </table>
+
     {% else %}
     No data!
     {% endif %}

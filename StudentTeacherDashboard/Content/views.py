@@ -1,3 +1,4 @@
+from email.policy import default
 from django.shortcuts import render
 
 from .models import Student
@@ -17,10 +18,11 @@ def teacherForm(request):
         if form.is_valid():
             nameInput = request.POST.get('name', None)
             emailInput = request.POST.get('email', None)
-            areasInput = request.POST.getlist('areas', None)
+            departmentInput = request.POST.get('department', None)
+            subjectsInput = request.POST.getlist('subjects', None)
 
-            Teacher.objects.update_or_create(email=emailInput, defaults = {"name" : nameInput})
-            Teacher.areas.add(areasInput)
+            Teacher.objects.update_or_create(department=departmentInput, email=emailInput, defaults = {"name" : nameInput})
+            Teacher.areas.add(subjectsInput)
 
     else:
         form = TeacherForm()
