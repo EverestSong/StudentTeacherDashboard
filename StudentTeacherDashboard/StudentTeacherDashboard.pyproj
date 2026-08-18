@@ -49,6 +49,8 @@
     <Content Include="Content\templates\Content\index.html" />
     <Content Include="Content\templates\Content\studentForm.html" />
     <Content Include="Content\templates\Content\teacherForm.html" />
+    <Content Include="Content\templates\Content\unitForm.html" />
+    <Content Include="media\images\dc.png" />
     <Content Include="requirements.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -56,6 +58,8 @@
     <Folder Include="Content\migrations\" />
     <Folder Include="Content\templates\" />
     <Folder Include="Content\templates\Content\" />
+    <Folder Include="media\" />
+    <Folder Include="media\images\" />
     <Folder Include="StudentTeacherDashboard\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Django.targets" />

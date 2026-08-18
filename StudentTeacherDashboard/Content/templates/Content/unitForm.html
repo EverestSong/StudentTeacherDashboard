@@ -20,13 +20,13 @@
 
 <html>
 <head>
-    <title>Teacher Registration</title>
+    <title>Unit Registration</title>
 </head>
 
 <body>
-    <h3>Teacher Registration Form</h3>
+    <h3>Unit Registration Form</h3>
 
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <button class="btn btn-primary"> Submit </button>

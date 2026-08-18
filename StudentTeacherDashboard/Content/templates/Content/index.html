@@ -23,6 +23,7 @@
 
 <body>
     <h2>Content</h2>
+
     <h3>Teachers</h3>
 
     {% if teachers %}
@@ -53,11 +54,71 @@
     No data!
     {% endif %}
 
-    <br>
-    <br>
+    <br> <br>
+
+    <h3>Students</h3>
+
+    {% if students %}
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Date of Birth</th>
+            <th>Year Level</th>
+            <th>Subjects</th>
+        </tr>
+        {% for student in students %}
+        <tr>
+            <td>{{student.name}}</td>
+            <td>{{student.email}}</td>
+            <td>{{student.date_of_birth}}</td>
+            <td>{{student.year_level}}</td>
+            <td>
+                {% for subject in student.subjects.all %} {{subject.name}}{% if not forloop.last %},
+                {% endif %}
+                {% empty %} No subjects selected.
+                {% endfor %}
+            </td>
+
+        </tr>
+        {% endfor %}
+    </table>
+
+    {% else %}
+    No data!
+    {% endif %}
+
+    <br> <br>
+
+    <h3>Units</h3>
+    {% if units %}
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Image</th>
+        </tr>
+        {% for unit in units %}
+        <tr>
+            <td>{{unit.name}}</td>
+
+            {% if '/images/' in unit.image %}
+            <td> <img src="{{unit.image.url}}"/> </td>
+
+            {% else %}
+            <td> No image uploaded! </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    No data!
+    {% endif %}
+
+    <br> <br>
 
     <a href="{% url 'index' %}">Home</a>
     <a href="{% url 'studentForm' %}">Student Registration</a>
     <a href="{% url 'teacherForm' %}">Teacher Registration</a>
+    <a href="{% url 'unitForm' %}">Unit Registration</a>
 </body>
 </html>
