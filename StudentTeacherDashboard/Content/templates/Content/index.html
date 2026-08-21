@@ -96,19 +96,44 @@
         <tr>
             <th>Name</th>
             <th>Image</th>
+            <th>Course Code</th>
+            <th>Teacher</th>
         </tr>
         {% for unit in units %}
         <tr>
             <td>{{unit.name}}</td>
 
-            {% if '/images/' in unit.image %}
-            <td> <img src="{{unit.image.url}}"/> </td>
+            {% if unit.image %}
+            <td> <img src="{{unit.image.url}}" width="240" height="135" /> </td>
 
             {% else %}
             <td> No image uploaded! </td>
             {% endif %}
+
+            <td>{{unit.course_code}}</td>
+            <td>{{unit.teacher}}</td>
         </tr>
         {% endfor %}
+    </table>
+    {% else %}
+    No data!
+    {% endif %}
+
+    <br> <br>
+
+    <h3>Unit Outlines</h3>
+    {% if units %}
+    <table>
+        <tr>
+            <th>Assessment Period</th>
+            <th>Course</th>
+            <th>Unit</th>
+            <th>Accreditation</th>
+            <th>Year Level</th>
+            <th>Unit Goals</th>
+            <th>Content Descriptions</th>
+        </tr>
+        
     </table>
     {% else %}
     No data!

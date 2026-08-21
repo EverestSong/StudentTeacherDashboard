@@ -25,7 +25,7 @@ class StudentForm(forms.ModelForm):
         fields = ['name', 'email', 'date_of_birth', 'year_level', 'subjects']
 
         widgets = {
-            'email': forms.EmailInput(attrs={'size': '26'}),     
+            'email': forms.EmailInput(attrs={'size': '28'}),     
             'date_of_birth': forms.TextInput(attrs={'type': 'date', 'placeholder': 'YYYY-MM-DD'}),
             'subjects': forms.CheckboxSelectMultiple()
         }
@@ -33,4 +33,9 @@ class StudentForm(forms.ModelForm):
 class UnitForm(forms.ModelForm):
     class Meta:
         model = Unit
-        fields = ['name', 'image']
+        fields = ['name', 'image', 'course_code', 'teacher']
+
+        widgets = {
+            'name': forms.TextInput(attrs={'size': '30'}),
+            'course_code': forms.TextInput(attrs={'size': '10'}),
+        }

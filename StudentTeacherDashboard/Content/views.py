@@ -35,7 +35,7 @@ def teacherForm(request):
 
 def studentForm(request):
     if request.method == "POST":
-        form = StudentForm(request.POST, request.FILES)
+        form = StudentForm(request.POST)
 
         if form.is_valid():
             nameInput = request.POST.get('name', None)
@@ -44,7 +44,7 @@ def studentForm(request):
             yearLevelInput = request.POST.get('year_level', None)
             subjectsInput = request.POST.getlist('subjects', None)
 
-            student, created = Student.objects.update_or_create(email=emailInput, defaults = {"name" : nameInput, "date_of_birth" : dateOfBirthInput, "year_level": yearLevelInput}) 
+            student, created = Student.objects.update_or_create(email=emailInput, defaults={"name" : nameInput, "date_of_birth" : dateOfBirthInput, "year_level": yearLevelInput}) 
             student.subjects.set(subjectsInput)
 
     else:
@@ -57,10 +57,7 @@ def unitForm(request):
         form = UnitForm(request.POST, request.FILES)
 
         if form.is_valid():
-            nameInput = request.POST.get('name', None)
-            imageInput = request.POST.get('image', None)
-
-            Unit.objects.create(name=nameInput, image=imageInput) 
+            form.save()
 
     else:
         form = UnitForm()
