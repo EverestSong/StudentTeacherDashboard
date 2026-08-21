@@ -43,8 +43,8 @@ class UnitOutline(models.Model):
     unit = models.OneToOneField(Unit, on_delete=models.CASCADE)
     accreditation = models.CharField(max_length=10)
     year_level = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(12)])
-    unit_goals = models.TextField(default="A")
-    content_descriptions = models.TextField(default="A")
+    unit_goals = models.TextField()
+    content_descriptions = models.TextField()
 
     def __str__(self):
         return self.unit.name

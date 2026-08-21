@@ -50,6 +50,7 @@
     <Content Include="Content\templates\Content\studentForm.html" />
     <Content Include="Content\templates\Content\teacherForm.html" />
     <Content Include="Content\templates\Content\unitForm.html" />
+    <Content Include="Content\templates\Content\unitOutlineForm.html" />
     <Content Include="media\images\dc.png" />
     <Content Include="requirements.txt" />
   </ItemGroup>

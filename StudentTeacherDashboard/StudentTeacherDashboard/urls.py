@@ -31,6 +31,7 @@ urlpatterns = [
     re_path(r'studentForm', Content.views.studentForm, name='studentForm'),
     re_path(r'teacherForm', Content.views.teacherForm, name='teacherForm'),
     re_path(r'unitForm', Content.views.unitForm, name='unitForm'),
+    re_path(r'unitOutlineForm', Content.views.unitOutlineForm, name='unitOutlineForm'),
     re_path(r'^home$', Content.views.index, name='home')
 ]
 

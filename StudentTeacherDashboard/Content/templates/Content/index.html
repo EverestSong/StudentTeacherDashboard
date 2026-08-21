@@ -34,6 +34,7 @@
             <th>Department</th>
             <th>Subjects</th>
         </tr>
+
         {% for teacher in teachers %}
         <tr>
             <td>{{teacher.name}}</td>
@@ -67,6 +68,7 @@
             <th>Year Level</th>
             <th>Subjects</th>
         </tr>
+
         {% for student in students %}
         <tr>
             <td>{{student.name}}</td>
@@ -79,7 +81,6 @@
                 {% empty %} No subjects selected.
                 {% endfor %}
             </td>
-
         </tr>
         {% endfor %}
     </table>
@@ -99,6 +100,7 @@
             <th>Course Code</th>
             <th>Teacher</th>
         </tr>
+
         {% for unit in units %}
         <tr>
             <td>{{unit.name}}</td>
@@ -122,7 +124,7 @@
     <br> <br>
 
     <h3>Unit Outlines</h3>
-    {% if units %}
+    {% if outlines %}
     <table>
         <tr>
             <th>Assessment Period</th>
@@ -133,8 +135,20 @@
             <th>Unit Goals</th>
             <th>Content Descriptions</th>
         </tr>
-        
+
+        {% for outline in outlines %}
+        <tr>
+            <td>{{outline.assessment_period}}</td>
+            <td>{{outline.course}}</td>
+            <td>{{outline.unit}}</td>
+            <td>{{outline.accreditation}}</td>
+            <td>{{outline.year_level}}</td>
+            <td>{{outline.unit_goals}}</td>
+            <td>{{outline.content_descriptions}}</td>
+        </tr>
+        {% endfor %}
     </table>
+
     {% else %}
     No data!
     {% endif %}
@@ -145,5 +159,6 @@
     <a href="{% url 'studentForm' %}">Student Registration</a>
     <a href="{% url 'teacherForm' %}">Teacher Registration</a>
     <a href="{% url 'unitForm' %}">Unit Registration</a>
+    <a href="{% url 'unitOutlineForm' %}">Unit Outline Generator</a>
 </body>
 </html>
