@@ -53,6 +53,8 @@
     <Content Include="Content\templates\Content\unitOutlineForm.html" />
     <Content Include="media\images\dc.png" />
     <Content Include="requirements.txt" />
+    <Content Include="dc.png" />
+    <Content Include="static\DigitalSolutions.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
@@ -61,6 +63,7 @@
     <Folder Include="Content\templates\Content\" />
     <Folder Include="media\" />
     <Folder Include="media\images\" />
+    <Folder Include="static\" />
     <Folder Include="StudentTeacherDashboard\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Django.targets" />

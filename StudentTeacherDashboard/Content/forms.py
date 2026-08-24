@@ -19,15 +19,13 @@ class TeacherForm(forms.ModelForm):
         }
 
 class StudentForm(forms.ModelForm):
-    date_of_birth = forms.DateField()
-
     class Meta:
         model = Student
         fields = ['name', 'email', 'date_of_birth', 'year_level', 'subjects']
 
         widgets = {
             'email': forms.EmailInput(attrs={'size': '28'}),     
-            'date_of_birth': forms.TextInput(attrs={'type': 'date', 'placeholder': 'YYYY-MM-DD'}),
+            'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
             'subjects': forms.CheckboxSelectMultiple()
         }
 

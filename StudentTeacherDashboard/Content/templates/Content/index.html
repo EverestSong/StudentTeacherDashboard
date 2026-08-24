@@ -1,4 +1,4 @@
-<head>
+<head> 
     <link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/cerulean/bootstrap.css" />
 
     <style>
@@ -143,8 +143,8 @@
             <td>{{outline.unit}}</td>
             <td>{{outline.accreditation}}</td>
             <td>{{outline.year_level}}</td>
-            <td>{{outline.unit_goals}}</td>
-            <td>{{outline.content_descriptions}}</td>
+            <td>{{outline.unit_goals | linebreaks}}</td>
+            <td>{{outline.content_descriptions | linebreaks}}</td>
         </tr>
         {% endfor %}
     </table>
@@ -154,6 +154,8 @@
     {% endif %}
 
     <br> <br>
+
+    <p><a href="{% url 'report'%}">PDF Report</a></p>
 
     <a href="{% url 'index' %}">Home</a>
     <a href="{% url 'studentForm' %}">Student Registration</a>

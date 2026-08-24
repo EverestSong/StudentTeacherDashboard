@@ -19,7 +19,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from django.urls import include, re_path
+from django.urls import include, path, re_path
 import Content.views
 
 from django.conf.urls.static import static
@@ -27,12 +27,13 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    re_path(r'^home$', Content.views.index, name='home'),
     re_path(r'^$', Content.views.index, name='index'),
     re_path(r'studentForm', Content.views.studentForm, name='studentForm'),
     re_path(r'teacherForm', Content.views.teacherForm, name='teacherForm'),
     re_path(r'unitForm', Content.views.unitForm, name='unitForm'),
     re_path(r'unitOutlineForm', Content.views.unitOutlineForm, name='unitOutlineForm'),
-    re_path(r'^home$', Content.views.index, name='home')
+    path('report/', Content.views.report, name='report'),
 ]
 
 if settings.DEBUG:

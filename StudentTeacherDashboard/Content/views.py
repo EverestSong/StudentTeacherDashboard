@@ -78,3 +78,56 @@ def unitOutlineForm(request):
         form = UnitOutlineForm()
 
     return render(request, "Content/unitOutlineForm.html", {'form': form})
+
+def report(request):
+    pdf_file = staticfiles_storage.path("DigitalSolutions.pdf")
+
+    try:
+        merger = PdfWriter()
+
+        input1 = PdfReader(generate_pdf())
+        input2 = PdfReader(pdf_file, "rb")
+
+        merger.append(input1)
+        merger.append(input2)
+
+        buffer = BytesIO()
+        merger.write(buffer)
+        buffer.seek(0) 
+
+        response = FileResponse(buffer, as_attachment=True, filename="attachment.pdf")
+
+    except FileNotFoundError:
+        response = FileResponse(generate_pdf(), as_attachment=True, filename="noAttachment.pdf")
+
+    return response
+
+def generate_pdf():
+    buffer = BytesIO()
+    p = canvas.Canvas(buffer)
+    
+    # Teacher Data
+    teachers = Teacher.objects.all()
+    teacherLines = [("Name: ", "Email: ", "Department: ", "Subjects: ")]
+
+    for teacher in teachers:
+        subjects = ", ".join(subject.name for subject in teacher.subjects.all())
+        teacherLines.append((teacher.name, teacher.email, teacher.department, subjects))
+
+    teacherTable = Table(teacherLines)
+
+    teacherTable.setStyle(TableStyle([
+        ("GRID", (0, 0), (-1, -1), 1, colors.black),
+        ("PADDING", (0, 0), (-1, -1), 5),
+        ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor('#a8c5ff')),
+        ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold")]))
+
+    teacherTable.wrapOn(p, 500, 700)
+    teacherTable.drawOn(p, 10, 580)
+
+    p.drawImage("dc.png", 10, 730, width=150, height=100)
+    p.showPage()
+    p.save()
+
+    buffer.seek(0)
+    return buffer
