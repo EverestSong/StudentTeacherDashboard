@@ -46,6 +46,6 @@ class UnitOutlineForm(forms.ModelForm):
 
         widgets = {
             'accreditation': forms.TextInput(attrs={'size': '1'}),     
-            'unit_goals': forms.Textarea(attrs={'rows': 10, 'cols': 100}),
-            'content_descriptions': forms.Textarea(attrs={'rows': 10, 'cols': 100}),
+            'unit_goals': forms.Textarea(attrs={'rows': 10, 'cols': 110}),
+            'content_descriptions': forms.Textarea(attrs={'rows': 10, 'cols': 110}),
         }

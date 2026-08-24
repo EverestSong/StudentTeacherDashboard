@@ -134,6 +134,7 @@
             <th>Year Level</th>
             <th>Unit Goals</th>
             <th>Content Descriptions</th>
+            <th>Download</th>
         </tr>
 
         {% for outline in outlines %}
@@ -145,6 +146,7 @@
             <td>{{outline.year_level}}</td>
             <td>{{outline.unit_goals | linebreaks}}</td>
             <td>{{outline.content_descriptions | linebreaks}}</td>
+            <td> <a href="{% url 'report' %}">Download</a> </td>
         </tr>
         {% endfor %}
     </table>
