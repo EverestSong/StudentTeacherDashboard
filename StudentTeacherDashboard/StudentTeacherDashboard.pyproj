@@ -51,9 +51,11 @@
     <Content Include="Content\templates\Content\teacherForm.html" />
     <Content Include="Content\templates\Content\unitForm.html" />
     <Content Include="Content\templates\Content\unitOutlineForm.html" />
+    <Content Include="Content\templates\navbar.html" />
     <Content Include="media\images\dc.png" />
     <Content Include="requirements.txt" />
     <Content Include="dc.png" />
+    <Content Include="static\css\main.css" />
     <Content Include="static\DigitalSolutions.pdf" />
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +66,7 @@
     <Folder Include="media\" />
     <Folder Include="media\images\" />
     <Folder Include="static\" />
+    <Folder Include="static\css\" />
     <Folder Include="StudentTeacherDashboard\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Django.targets" />

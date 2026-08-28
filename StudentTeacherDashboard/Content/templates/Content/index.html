@@ -1,25 +1,12 @@
-<head>
-    <link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/cerulean/bootstrap.css" />
-
-    <style>
-        body {
-            margin: 0;
-            padding: 10px;
-        }
-
-        table {
-            border-collapse: collapse;
-        }
-
-        th, td {
-            border: 1px solid black;
-            padding: 5px;
-        }
-    </style>
-</head>
+{% load static %}
 
 <html>
-<head><title></title></head>
+<head>
+    <title></title>
+
+    <link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/cerulean/bootstrap.css" />
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
 
 <body>
     <h2>Content</h2>
@@ -134,7 +121,7 @@
             <th>Year Level</th>
             <th>Unit Goals</th>
             <th>Content Descriptions</th>
-            <th>Download</th>
+            <th>Functions</th>
         </tr>
 
         {% for outline in outlines %}
@@ -146,7 +133,11 @@
             <td>{{outline.year_level}}</td>
             <td>{{outline.unit_goals | linebreaks}}</td>
             <td>{{outline.content_descriptions | linebreaks}}</td>
-            <td> <a href="{% url 'report' %}">Download</a> </td>
+            <td>
+                <a href="{% url 'report' outline.id %}">Download</a> <br>
+                <a href="{% url 'edit_outline' outline.id %}"> Edit </a> <br>
+                <a href="{% url 'delete_outline' outline.id %}"> Delete </a> <br>
+            </td>
         </tr>
         {% endfor %}
     </table>
@@ -155,14 +146,8 @@
     No data!
     {% endif %}
 
-    <br> <br>
+    <br> 
 
-    <p><a href="{% url 'report'%}">PDF Report</a></p>
-
-    <a href="{% url 'index' %}">Home</a>
-    <a href="{% url 'studentForm' %}">Student Registration</a>
-    <a href="{% url 'teacherForm' %}">Teacher Registration</a>
-    <a href="{% url 'unitForm' %}">Unit Registration</a>
-    <a href="{% url 'unitOutlineForm' %}">Unit Outline Generator</a>
+    {% include 'navbar.html' %}
 </body>
 </html>

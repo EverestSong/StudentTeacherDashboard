@@ -13,11 +13,13 @@ from .forms import UnitOutlineForm
 
 from pypdf import PdfWriter, PdfReader
 from reportlab.pdfgen import canvas
-from reportlab.platypus import Table, TableStyle
+from reportlab.platypus import Table, TableStyle, Paragraph
 from django.http import FileResponse
 from django.contrib.staticfiles.storage import staticfiles_storage
 from reportlab.lib import colors
 from io import BytesIO
+from django.shortcuts import get_object_or_404
+from reportlab.lib.styles import getSampleStyleSheet
 
 def index(request):
     teachers = Teacher.objects.all()
@@ -79,37 +81,87 @@ def unitOutlineForm(request):
 
     return render(request, "Content/unitOutlineForm.html", {'form': form})
 
-def report(request):
-    response = FileResponse(generate_pdf(), as_attachment=True, filename="Unit Outlines.pdf")
+def report(request, outline_id):
+    outline = get_object_or_404(UnitOutline, pk=outline_id)
+    response = FileResponse(generate_pdf(outline), as_attachment=True, filename=f"{outline.unit} Unit Outline.pdf")
     return response
 
-def generate_pdf():
+def generate_pdf(outline):
     buffer = BytesIO()
     p = canvas.Canvas(buffer)
     
-    """
+    # Images and Text
+    p.drawImage("dc.png", 30, 720, width=150, height=80)
+
+    p.setFont("Helvetica", 24)
+    p.drawString(260, 750, "Dickson College")
+
     # Unit Data
-    outlines = UnitOutline.objects.all()
-    outlineLines = [("Assessment Period: ", "Course: ", "Unit: ", "Accreditation: ", "Year Level: ", "Unit Goals: ", "Content Descriptions: ")]
+    outlineLines = [
+        ("Assessment Period:", outline.assessment_period),
+        ("Course:", outline.course),
+        ("Unit:", outline.unit),
+        ("Accreditation:", outline.accreditation),
+        ("Year Level:", outline.year_level),
+    ]
 
-    for outline in outlines:
-        outlineLines.append((outline.assessment_period, outline.course, outline.unit, outline.accreditation, outline.year_level, outline.unit_goals, outline.content_descriptions))
+    # Table
+    table = Table(outlineLines, colWidths=[120, 380])
 
-    unitTable = Table(outlineLines)
-
-    unitTable.setStyle(TableStyle([
+    table.setStyle(TableStyle([
         ("GRID", (0, 0), (-1, -1), 1, colors.black),
         ("PADDING", (0, 0), (-1, -1), 5),
-        ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor('#a8c5ff')),
-        ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold")]))
+        ("BACKGROUND", (0, 0), (0, -1), colors.HexColor('#a8c5ff')),
+        ("FONTNAME", (0, 0), (0, -1), "Helvetica-Bold")]))
 
-    unitTable.wrapOn(p, 500, 700)
-    unitTable.drawOn(p, 10, 480)
-    """
+    table.wrapOn(p, 500, 700)
+    table.drawOn(p, 30, 610)
 
-    p.drawImage("dc.png", 10, 730, width=190, height=100)
+    # Unit Image
+    p.setFont("Helvetica", 14)
+    p.drawString(30, 590, "Unit Image")
+    p.drawImage(outline.unit.image.path, 30, 500, width=150, height=80)
+
+    # Unit Goals
+    styles = getSampleStyleSheet()
+    bodyStyle = styles["BodyText"]
+
+    p.drawString(30, 460, "Unit Goals")
+    goalsText = Paragraph(outline.unit_goals.replace("\n", "<br/>"), bodyStyle)
+    goals_width, goals_height = goalsText.wrap(500, 400)
+    goalsText.drawOn(p, 30, 450 - goals_height)
+
+    # Content Descriptions
+    p.drawString(30, 360, "Content Descriptions")
+    content_text = Paragraph(outline.content_descriptions.replace("\n", "<br/>"), bodyStyle)
+    content_width, content_height = content_text.wrap(500, 350)
+    content_text.drawOn(p, 30, 350 - content_height)
+
+    # Finish
     p.showPage()
     p.save()
 
     buffer.seek(0)
     return buffer
+
+def edit_outline(request, outline_id):
+    outline = get_object_or_404(UnitOutline, pk=outline_id)
+
+    if request.method == "POST":
+        form = UnitOutlineForm(request.POST, instance=outline)
+
+        if form.is_valid():
+            form.save()
+            return redirect("index")
+
+    else:
+        form = UnitOutlineForm(instance=outline)
+
+    return render(request, "Content/unitOutlineForm.html", {'form': form})
+
+def delete_outline(request, outline_id):
+    outline = get_object_or_404(UnitOutline, pk=outline_id)
+    outline.delete()
+    return redirect("index")
+
+    

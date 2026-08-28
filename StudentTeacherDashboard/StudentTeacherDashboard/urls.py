@@ -27,13 +27,15 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    re_path(r'^home$', Content.views.index, name='home'),
-    re_path(r'^$', Content.views.index, name='index'),
-    re_path(r'studentForm', Content.views.studentForm, name='studentForm'),
-    re_path(r'teacherForm', Content.views.teacherForm, name='teacherForm'),
-    re_path(r'unitForm', Content.views.unitForm, name='unitForm'),
-    re_path(r'unitOutlineForm', Content.views.unitOutlineForm, name='unitOutlineForm'),
-    path('report/', Content.views.report, name='report'),
+    path('home', Content.views.index, name='home'),
+    path('', Content.views.index, name='index'),
+    path('studentForm', Content.views.studentForm, name='studentForm'),
+    path('teacherForm', Content.views.teacherForm, name='teacherForm'),
+    path('unitForm', Content.views.unitForm, name='unitForm'),
+    path('unitOutlineForm', Content.views.unitOutlineForm, name='unitOutlineForm'),
+    path('report/<int:outline_id>/', Content.views.report, name='report'),
+    path('edit_outline/<int:outline_id>/', Content.views.edit_outline, name='edit_outline'),
+    path('delete_outline/<int:outline_id>/', Content.views.delete_outline, name='delete_outline'),
 ]
 
 if settings.DEBUG:
