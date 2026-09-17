@@ -34,8 +34,8 @@ urlpatterns = [
     path('unitForm', Content.views.unitForm, name='unitForm'),
     path('unitOutlineForm', Content.views.unitOutlineForm, name='unitOutlineForm'),
     path('report/<int:outline_id>/', Content.views.report, name='report'),
-    path('edit_outline/<int:outline_id>/', Content.views.edit_outline, name='edit_outline'),
-    path('delete_outline/<int:outline_id>/', Content.views.delete_outline, name='delete_outline'),
+    path('editOutline/<int:outline_id>/', Content.views.editOutline, name='editOutline'),
+    path('deleteOutline/<int:outline_id>/', Content.views.deleteOutline, name='deleteOutline'),
 ]
 
 if settings.DEBUG:

@@ -11,6 +11,7 @@
 <body>
     <h2>Content</h2>
 
+
     <h3>Teachers</h3>
 
     {% if teachers %}
@@ -24,8 +25,8 @@
 
         {% for teacher in teachers %}
         <tr>
-            <td>{{teacher.name}}</td>
-            <td>{{teacher.email}}</td>
+            <td>{{teacher.user.first_name}} {{teacher.user.last_name}}</td>
+            <td>{{teacher.user.email}}</td>
             <td>{{teacher.department}}</td>
             <td>
                 {% for subject in teacher.subjects.all %} {{subject.name}}{% if not forloop.last %},
@@ -43,7 +44,7 @@
     {% endif %}
 
     <br> <br>
-
+    
     <h3>Students</h3>
 
     {% if students %}
@@ -58,8 +59,8 @@
 
         {% for student in students %}
         <tr>
-            <td>{{student.name}}</td>
-            <td>{{student.email}}</td>
+            <td>{{student.user.first_name}} {{student.user.last_name}}</td>
+            <td>{{student.user.email}}</td>
             <td>{{student.date_of_birth}}</td>
             <td>{{student.year_level}}</td>
             <td>
@@ -135,8 +136,8 @@
             <td>{{outline.content_descriptions | linebreaks}}</td>
             <td>
                 <a href="{% url 'report' outline.id %}">Download</a> <br>
-                <a href="{% url 'edit_outline' outline.id %}"> Edit </a> <br>
-                <a href="{% url 'delete_outline' outline.id %}"> Delete </a> <br>
+                <a href="{% url 'editOutline' outline.id %}"> Edit </a> <br>
+                <a href="{% url 'deleteOutline' outline.id %}"> Delete </a> <br>
             </td>
         </tr>
         {% endfor %}
@@ -146,8 +147,8 @@
     No data!
     {% endif %}
 
-    <br> 
-
+    <br><br>
+    <br>
     {% include 'navbar.html' %}
 </body>
 </html>

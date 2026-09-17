@@ -1,5 +1,5 @@
-from email.policy import default
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 from datetime import date
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -10,21 +10,33 @@ class Subject(models.Model):
     def __str__(self):
         return self.name
 
+class CustomUser(AbstractUser):
+    roleChoices = [
+        ('teacher', 'Teacher'),
+        ('student', 'Student'),
+    ]
+    
+    role = models.CharField(max_length=25, choices=roleChoices)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
 class Teacher(models.Model):
-    name = models.CharField(max_length=25)
-    email = models.EmailField(max_length=100, unique=True)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     department = models.CharField(max_length=40)
     subjects = models.ManyToManyField(Subject, blank=True)
     
     def __str__(self):
-        return self.name
+        return f"{self.user.first_name} {self.user.last_name}"
 
 class Student(models.Model):
-    name = models.CharField(max_length=25)
-    email = models.EmailField(max_length=100, unique=True)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     date_of_birth = models.DateField(validators=[MinValueValidator(date(2000, 1, 1)), MaxValueValidator(date(2026, 1, 1))])
     year_level = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(12)])
     subjects = models.ManyToManyField(Subject, blank=True) 
+
+    def __str__(self):
+        return f"{self.user.first_name} {self.user.last_name}"
 
 class Unit(models.Model):
     name = models.CharField(max_length=50)

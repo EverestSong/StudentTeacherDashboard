@@ -144,7 +144,7 @@ def generate_pdf(outline):
     buffer.seek(0)
     return buffer
 
-def edit_outline(request, outline_id):
+def editOutline(request, outline_id):
     outline = get_object_or_404(UnitOutline, pk=outline_id)
 
     if request.method == "POST":
@@ -159,7 +159,7 @@ def edit_outline(request, outline_id):
 
     return render(request, "Content/unitOutlineForm.html", {'form': form})
 
-def delete_outline(request, outline_id):
+def deleteOutline(request, outline_id):
     outline = get_object_or_404(UnitOutline, pk=outline_id)
     outline.delete()
     return redirect("index")
