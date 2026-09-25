@@ -1,10 +1,5 @@
 from django import forms
-
-from .models import Student 
-from .models import Teacher 
-from .models import Unit 
-from .models import UnitOutline
-
+from .models import Student, Teacher, Unit , UnitOutline
 from django.db import models
 
 class TeacherForm(forms.ModelForm):

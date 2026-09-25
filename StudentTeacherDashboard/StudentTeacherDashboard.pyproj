@@ -51,6 +51,7 @@
     <Content Include="Content\templates\Content\teacherForm.html" />
     <Content Include="Content\templates\Content\unitForm.html" />
     <Content Include="Content\templates\Content\unitOutlineForm.html" />
+    <Content Include="Content\templates\Content\signIn.html" />
     <Content Include="Content\templates\navbar.html" />
     <Content Include="media\images\dc.png" />
     <Content Include="requirements.txt" />

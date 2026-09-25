@@ -29,10 +29,17 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('home', Content.views.index, name='home'),
     path('', Content.views.index, name='index'),
+
+    path('signIn', Content.views.signIn, name='signIn'),
+    path('signOut', Content.views.signOut, name='signOut'),
+
+    # Forms
     path('studentForm', Content.views.studentForm, name='studentForm'),
     path('teacherForm', Content.views.teacherForm, name='teacherForm'),
     path('unitForm', Content.views.unitForm, name='unitForm'),
     path('unitOutlineForm', Content.views.unitOutlineForm, name='unitOutlineForm'),
+
+    # Outlines
     path('report/<int:outline_id>/', Content.views.report, name='report'),
     path('editOutline/<int:outline_id>/', Content.views.editOutline, name='editOutline'),
     path('deleteOutline/<int:outline_id>/', Content.views.deleteOutline, name='deleteOutline'),

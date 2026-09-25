@@ -1,11 +1,5 @@
 from django.contrib import admin
-
-from .models import Student
-from .models import Teacher
-from .models import Subject 
-from .models import Unit 
-from .models import UnitOutline
-from .models import CustomUser
+from .models import Student, Teacher, Subject, Unit, UnitOutline, CustomUser
 
 admin.site.register(Student)
 admin.site.register(Teacher)

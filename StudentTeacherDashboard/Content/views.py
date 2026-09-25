@@ -1,16 +1,14 @@
-from email.policy import default
 from django.shortcuts import render, redirect
 
-from .models import Student
-from .models import Teacher
-from .models import Unit
-from .models import UnitOutline
+# User authentication
+from django.contrib.auth import login, logout
+from django.contrib.auth.forms import AuthenticationForm
 
-from .forms import StudentForm
-from .forms import TeacherForm
-from .forms import UnitForm
-from .forms import UnitOutlineForm
+# Models and associated forms
+from .models import Student, Teacher, Unit, UnitOutline
+from .forms import StudentForm, TeacherForm, UnitForm, UnitOutlineForm
 
+# PDF generation
 from pypdf import PdfWriter, PdfReader
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Table, TableStyle, Paragraph
@@ -29,57 +27,73 @@ def index(request):
 
     return render(request, 'Content/index.html', {'teachers': teachers, 'students': students, 'units': units, 'outlines': outlines})
 
+def signIn(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('index')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'Content/signIn.html', {'form': form})
+
+def signOut(request):
+    logout(request)
+    return redirect('index')
+
 def teacherForm(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         form = TeacherForm(request.POST)
 
         if form.is_valid():
             form.save()
-            return redirect("index")
+            return redirect('index')
 
     else:
         form = TeacherForm()
 
-    return render(request, "Content/teacherForm.html", {'form': form})
+    return render(request, 'Content/teacherForm.html', {'form': form})
 
 def studentForm(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         form = StudentForm(request.POST)
 
         if form.is_valid():
             form.save()
-            return redirect("index")
+            return redirect('index')
 
     else:
         form = StudentForm()
 
-    return render(request, "Content/studentForm.html", {'form': form})
+    return render(request, 'Content/studentForm.html', {'form': form})
 
 def unitForm(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         form = UnitForm(request.POST, request.FILES)
 
         if form.is_valid():
             form.save()
-            return redirect("index")
+            return redirect('index')
 
     else:
         form = UnitForm()
 
-    return render(request, "Content/unitForm.html", {'form': form})
+    return render(request, 'Content/unitForm.html', {'form': form})
 
 def unitOutlineForm(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         form = UnitOutlineForm(request.POST)
 
         if form.is_valid():
             form.save()
-            return redirect("index")
+            return redirect('index')
 
     else:
         form = UnitOutlineForm()
 
-    return render(request, "Content/unitOutlineForm.html", {'form': form})
+    return render(request, 'Content/unitOutlineForm.html', {'form': form})
 
 def report(request, outline_id):
     outline = get_object_or_404(UnitOutline, pk=outline_id)
@@ -147,21 +161,21 @@ def generate_pdf(outline):
 def editOutline(request, outline_id):
     outline = get_object_or_404(UnitOutline, pk=outline_id)
 
-    if request.method == "POST":
+    if request.method == 'POST':
         form = UnitOutlineForm(request.POST, instance=outline)
 
         if form.is_valid():
             form.save()
-            return redirect("index")
+            return redirect('index')
 
     else:
         form = UnitOutlineForm(instance=outline)
 
-    return render(request, "Content/unitOutlineForm.html", {'form': form})
+    return render(request, 'Content/unitOutlineForm.html', {'form': form})
 
 def deleteOutline(request, outline_id):
     outline = get_object_or_404(UnitOutline, pk=outline_id)
     outline.delete()
-    return redirect("index")
+    return redirect('index')
 
     
