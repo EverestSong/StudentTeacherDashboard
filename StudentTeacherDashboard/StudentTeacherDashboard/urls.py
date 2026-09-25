@@ -32,6 +32,7 @@ urlpatterns = [
 
     path('signIn', Content.views.signIn, name='signIn'),
     path('signOut', Content.views.signOut, name='signOut'),
+    path('rubric', Content.views.rubric, name='rubric'),
 
     # Forms
     path('studentForm', Content.views.studentForm, name='studentForm'),

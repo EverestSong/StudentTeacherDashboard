@@ -27,6 +27,9 @@ def index(request):
 
     return render(request, 'Content/index.html', {'teachers': teachers, 'students': students, 'units': units, 'outlines': outlines})
 
+def rubric(request):
+    return render(request, 'Content/rubric.html')
+
 def signIn(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
