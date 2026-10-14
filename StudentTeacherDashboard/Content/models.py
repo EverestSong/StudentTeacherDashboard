@@ -1,3 +1,4 @@
+from os import name
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
@@ -50,13 +51,35 @@ class Unit(models.Model):
         return self.name
 
 class UnitOutline(models.Model):
-    assessment_period = models.CharField(max_length=50)
+    # Choices
+    semesterChoices = [('S1', 'S1'), ('S2', 'S2')]
+    accreditationChoices = [('T', 'T'), ('A', 'A'), ('M', 'M')]
+
+    # Fields
+    year = models.PositiveIntegerField()
+    semester = models.CharField(max_length=2, choices=semesterChoices, default='S1')
     course = models.ForeignKey(Subject, on_delete=models.CASCADE)
     unit = models.OneToOneField(Unit, on_delete=models.CASCADE)
-    accreditation = models.CharField(max_length=10)
+    accreditation = models.CharField(max_length=1, choices=accreditationChoices)
     year_level = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(12)])
     unit_goals = models.TextField()
     content_descriptions = models.TextField()
+
+    @property
+    def assessment_period(self):
+        return f"{self.year} {self.semester}"
+
+    def __str__(self):
+        return self.unit.name
+
+class Assessment(models.Model):
+    assessmentTypes = [('Test', 'Test')]
+
+    outline = models.ForeignKey(UnitOutline, on_delete=models.CASCADE, related_name='assessments')
+    name = models.CharField(max_length=100)
+    assessment_type = models.CharField(max_length=20, choices=assessmentTypes)
+    weighting = models.DecimalField(max_digits=5, decimal_places=2)
+    due_date = models.DateField()
 
     def __str__(self):
         return self.unit.name

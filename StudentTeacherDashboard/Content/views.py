@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
+from datetime import datetime
 
 # User authentication
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 
 # Models and associated forms
-from .models import Student, Teacher, Unit, UnitOutline
-from .forms import StudentForm, TeacherForm, UnitForm, UnitOutlineForm
+from .models import Student, Teacher, Unit, UnitOutline, Assessment
+from .forms import StudentForm, TeacherForm, UnitForm, UnitOutlineForm, AssessmentForm, AssessmentFormSet
 
 # PDF generation
 from pypdf import PdfWriter, PdfReader
@@ -86,21 +87,27 @@ def unitForm(request):
     return render(request, 'Content/unitForm.html', {'form': form})
 
 def unitOutlineForm(request):
-    if request.method == 'POST':
-        form = UnitOutlineForm(request.POST)
+    outline = UnitOutline()
 
-        if form.is_valid():
-            form.save()
+    if request.method == 'POST':
+        form = UnitOutlineForm(request.POST, instance=outline)
+        assessment_formset = AssessmentFormSet(request.POST, instance=outline)
+
+        if form.is_valid() and assessment_formset.is_valid():
+            outline = form.save()
+            assessment_formset.instance = outline
+            assessment_formset.save()
             return redirect('index')
 
     else:
-        form = UnitOutlineForm()
+        form = UnitOutlineForm(instance=outline)
+        assessment_formset = AssessmentFormSet(instance=outline)
 
-    return render(request, 'Content/unitOutlineForm.html', {'form': form})
+    return render(request, 'Content/unitOutlineForm.html', {'form': form, 'assessment_formset': assessment_formset})
 
 def report(request, outline_id):
     outline = get_object_or_404(UnitOutline, pk=outline_id)
-    response = FileResponse(generate_pdf(outline), as_attachment=True, filename=f"{outline.unit} Unit Outline.pdf")
+    response = FileResponse(generate_pdf(outline), as_attachment=True, filename=f"{outline.unit} Unit Outline {datetime.now().year}.pdf")
     return response
 
 def generate_pdf(outline):
@@ -166,15 +173,19 @@ def editOutline(request, outline_id):
 
     if request.method == 'POST':
         form = UnitOutlineForm(request.POST, instance=outline)
+        assessment_formset = AssessmentFormSet(request.POST, instance=outline)
 
-        if form.is_valid():
-            form.save()
+        if form.is_valid() and assessment_formset.is_valid():
+            outline = form.save()
+            assessment_formset.instance = outline
+            assessment_formset.save()
             return redirect('index')
 
     else:
         form = UnitOutlineForm(instance=outline)
+        assessment_formset = AssessmentFormSet(instance=outline)
 
-    return render(request, 'Content/unitOutlineForm.html', {'form': form})
+    return render(request, 'Content/unitOutlineForm.html', {'form': form, 'assessment_formset': assessment_formset})
 
 def deleteOutline(request, outline_id):
     outline = get_object_or_404(UnitOutline, pk=outline_id)

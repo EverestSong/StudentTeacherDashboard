@@ -1,6 +1,8 @@
 from django import forms
-from .models import Student, Teacher, Unit , UnitOutline
+from .models import Student, Teacher, Unit, UnitOutline, Assessment
 from django.db import models
+from datetime import datetime
+from django.forms import inlineformset_factory
 
 class TeacherForm(forms.ModelForm):
     class Meta: 
@@ -33,12 +35,29 @@ class UnitForm(forms.ModelForm):
         }
 
 class UnitOutlineForm(forms.ModelForm):
+    currentYear = datetime.today().year
+    yearChoices = []
+    for year in range(currentYear-2, currentYear+3): # 2024, 2025, 2026, 2027, 2028
+        yearChoices.append((year, str(year)))
+
+    year = forms.ChoiceField(choices=yearChoices, initial=datetime.now().year)
+
     class Meta:
         model = UnitOutline
-        fields = ['assessment_period', 'course', 'unit', 'accreditation', 'year_level', 'unit_goals', 'content_descriptions']
+        fields = ['year', 'semester', 'course', 'unit', 'accreditation', 'year_level', 'unit_goals', 'content_descriptions']
 
         widgets = {
-            'accreditation': forms.TextInput(attrs={'size': '1'}),     
             'unit_goals': forms.Textarea(attrs={'rows': 10, 'cols': 110}),
             'content_descriptions': forms.Textarea(attrs={'rows': 10, 'cols': 110}),
         }
+
+class AssessmentForm(forms.ModelForm):
+    class Meta:
+        model = Assessment
+        fields = ['name', 'assessment_type', 'weighting', 'due_date']
+
+        widgets = {
+            'due_date': forms.DateInput(attrs={'type': 'date'}),
+        }
+
+AssessmentFormSet = inlineformset_factory(UnitOutline, Assessment, form=AssessmentForm, extra=4, can_delete=True)

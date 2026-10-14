@@ -16,7 +16,19 @@
         <table>
             {{ form.as_table }}
         </table>
-        <br> <br>
+
+        <br>
+
+        <h3>Assessments</h3>
+
+        {% for assessment_form in assessment_formset %}
+        <table>
+            {{ assessment_form.as_table }}
+        </table>
+        <br>
+        {% endfor %}
+
+        <br>
         <button class="btn btn-primary"> Submit </button>
     </form>
 
