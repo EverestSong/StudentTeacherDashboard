@@ -1,11 +1,27 @@
 <nav class="navbar">
     <ul>
-        <li><a href="{% url 'signIn' %}">Sign In</a></li>
+        {% if user.is_authenticated %}
+
+        {% if user.role == 'Student' %}
         <li><a href="{% url 'index' %}">Home</a></li>
+        <li><a href="{% url 'studentDashboard' %}">Student Dashboard</a></li>
+        <li><a href="{% url 'signOut' %}">Sign Out</a></li>
+        
+        {% elif user.role == 'Teacher' %}
+        <li><a href="{% url 'index' %}">Home</a></li>
+        <li><a href="{% url 'teacherDashboard' %}">Teacher Dashboard</a></li>
         <li><a href="{% url 'studentForm' %}">Student Registration</a></li>
         <li><a href="{% url 'teacherForm' %}">Teacher Registration</a></li>
         <li><a href="{% url 'unitForm' %}">Unit Registration</a></li>
         <li><a href="{% url 'unitOutlineForm' %}">Unit Outline Generator</a></li>
+        <li><a href="{% url 'signOut' %}">Sign Out</a></li>
+        {% endif %}
+
+        {% else %}
+        <li><a href="{% url 'index' %}">Home</a></li>
+        <li><a href="{% url 'signIn' %}">Sign In</a></li>
+
+        {% endif %}
     </ul>
 </nav>
 

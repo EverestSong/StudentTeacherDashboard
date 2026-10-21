@@ -47,7 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\templates\Content\index.html" />
+    <Content Include="Content\templates\Content\studentDashboard.html" />
     <Content Include="Content\templates\Content\studentForm.html" />
+    <Content Include="Content\templates\Content\teacherDashboard.html" />
     <Content Include="Content\templates\Content\teacherForm.html" />
     <Content Include="Content\templates\Content\unitForm.html" />
     <Content Include="Content\templates\Content\unitOutlineForm.html" />

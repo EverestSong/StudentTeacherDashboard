@@ -34,6 +34,10 @@ urlpatterns = [
     path('signOut', Content.views.signOut, name='signOut'),
     path('rubric', Content.views.rubric, name='rubric'),
 
+    # Dashboards
+    path('studentDashboard', Content.views.studentDashboard, name='studentDashboard'),
+    path('teacherDashboard', Content.views.teacherDashboard, name='teacherDashboard'),
+
     # Forms
     path('studentForm', Content.views.studentForm, name='studentForm'),
     path('teacherForm', Content.views.teacherForm, name='teacherForm'),

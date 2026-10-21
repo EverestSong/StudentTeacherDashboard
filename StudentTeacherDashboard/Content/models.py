@@ -13,8 +13,8 @@ class Subject(models.Model):
 
 class CustomUser(AbstractUser):
     roleChoices = [
-        ('teacher', 'Teacher'),
-        ('student', 'Student'),
+        ('Teacher', 'Teacher'),
+        ('Student', 'Student'),
     ]
     
     role = models.CharField(max_length=25, choices=roleChoices)
@@ -73,7 +73,8 @@ class UnitOutline(models.Model):
         return self.unit.name
 
 class Assessment(models.Model):
-    assessmentTypes = [('Test', 'Test')]
+    assessmentTypes = [('Test', 'Test'), ('Assignment', 'Assignment'), ('Design', 'Design'), ('Project', 'Project'), 
+                       ('Laboratory Task', 'Laboratory Task'), ('Essay', 'Essay'), ('Presentation', 'Presentation')]
 
     outline = models.ForeignKey(UnitOutline, on_delete=models.CASCADE, related_name='assessments')
     name = models.CharField(max_length=100)
@@ -82,4 +83,4 @@ class Assessment(models.Model):
     due_date = models.DateField()
 
     def __str__(self):
-        return self.unit.name
+        return self.name

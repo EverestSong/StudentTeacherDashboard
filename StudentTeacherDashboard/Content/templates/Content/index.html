@@ -9,146 +9,39 @@
 </head>
 
 <body>
-    <h2>Content</h2>
+    {% if user.is_authenticated %}
+    <h2>Welcome, {{ user.first_name }} {{ user.last_name }}!</h2>
 
+    {% else %}
+    <h2>Welcome!</h2>
+
+    {% endif %}
+
+    <h3>Students</h3>
+
+    <ul>
+        <li>View units</li>
+        <li>View unit outlines</li>
+        <li>Download unit outlines</li>
+    </ul>
 
     <h3>Teachers</h3>
 
-    {% if teachers %}
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Department</th>
-            <th>Subjects</th>
-        </tr>
+    <ul>
+        <li>Create units</li>
+        <li>Create, download, update, and delete unit outlines</li>
+        <li>Create teacher accounts</li>
+        <li>Create student accounts</li>
+    </ul>
 
-        {% for teacher in teachers %}
-        <tr>
-            <td>{{teacher.user.first_name}} {{teacher.user.last_name}}</td>
-            <td>{{teacher.user.email}}</td>
-            <td>{{teacher.department}}</td>
-            <td>
-                {% for subject in teacher.subjects.all %} {{subject.name}}{% if not forloop.last %},
-                {% endif %}
-                {% empty %} No subjects selected.
-                {% endfor %}
-            </td>
-
-        </tr>
-        {% endfor %}
-    </table>
+    {% if user.is_authenticated %}
+    <p>{{ user.role }} access</p>
 
     {% else %}
-    No data!
+    <p>You are not currently signed in. Would you like to <a href="{% url 'signIn' %}">sign in</a>?</p>
+
     {% endif %}
 
-    <br> <br>
-    
-    <h3>Students</h3>
-
-    {% if students %}
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Date of Birth</th>
-            <th>Year Level</th>
-            <th>Subjects</th>
-        </tr>
-
-        {% for student in students %}
-        <tr>
-            <td>{{student.user.first_name}} {{student.user.last_name}}</td>
-            <td>{{student.user.email}}</td>
-            <td>{{student.date_of_birth}}</td>
-            <td>{{student.year_level}}</td>
-            <td>
-                {% for subject in student.subjects.all %} {{subject.name}}{% if not forloop.last %},
-                {% endif %}
-                {% empty %} No subjects selected.
-                {% endfor %}
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-
-    {% else %}
-    No data!
-    {% endif %}
-
-    <br> <br>
-
-    <h3>Units</h3>
-    {% if units %}
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Image</th>
-            <th>Course Code</th>
-            <th>Teacher</th>
-        </tr>
-
-        {% for unit in units %}
-        <tr>
-            <td>{{unit.name}}</td>
-
-            {% if unit.image %}
-            <td> <img src="{{unit.image.url}}" width="240" height="135" /> </td>
-
-            {% else %}
-            <td> No image uploaded! </td>
-            {% endif %}
-
-            <td>{{unit.course_code}}</td>
-            <td>{{unit.teacher}}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    {% else %}
-    No data!
-    {% endif %}
-
-    <br> <br>
-
-    <h3>Unit Outlines</h3>
-    {% if outlines %}
-    <table>
-        <tr>
-            <th>Assessment Period</th>
-            <th>Course</th>
-            <th>Unit</th>
-            <th>Accreditation</th>
-            <th>Year Level</th>
-            <th>Unit Goals</th>
-            <th>Content Descriptions</th>
-            <th>Functions</th>
-        </tr>
-
-        {% for outline in outlines %}
-        <tr>
-            <td>{{outline.assessment_period}}</td>
-            <td>{{outline.course}}</td>
-            <td>{{outline.unit}}</td>
-            <td>{{outline.accreditation}}</td>
-            <td>{{outline.year_level}}</td>
-            <td>{{outline.unit_goals | linebreaks}}</td>
-            <td>{{outline.content_descriptions | linebreaks}}</td>
-            <td>
-                <a href="{% url 'report' outline.id %}">Download</a> <br>
-                <a href="{% url 'editOutline' outline.id %}"> Edit </a> <br>
-                <a href="{% url 'deleteOutline' outline.id %}"> Delete </a> <br>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-
-    {% else %}
-    No data!
-    {% endif %}
-
-    <br><br>
-    <br>
     {% include 'navbar.html' %}
 </body>
 </html>

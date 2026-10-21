@@ -1,8 +1,9 @@
 from django import forms
-from .models import Student, Teacher, Unit, UnitOutline, Assessment
+from .models import CustomUser, Student, Teacher, Unit, UnitOutline, Assessment
 from django.db import models
 from datetime import datetime
 from django.forms import inlineformset_factory
+from django.contrib.auth.forms import UserCreationForm
 
 class TeacherForm(forms.ModelForm):
     class Meta: 
@@ -47,8 +48,8 @@ class UnitOutlineForm(forms.ModelForm):
         fields = ['year', 'semester', 'course', 'unit', 'accreditation', 'year_level', 'unit_goals', 'content_descriptions']
 
         widgets = {
-            'unit_goals': forms.Textarea(attrs={'rows': 10, 'cols': 110}),
-            'content_descriptions': forms.Textarea(attrs={'rows': 10, 'cols': 110}),
+            'unit_goals': forms.Textarea(attrs={'rows': 10, 'cols': 120}),
+            'content_descriptions': forms.Textarea(attrs={'rows': 10, 'cols': 120}),
         }
 
 class AssessmentForm(forms.ModelForm):
@@ -61,3 +62,11 @@ class AssessmentForm(forms.ModelForm):
         }
 
 AssessmentFormSet = inlineformset_factory(UnitOutline, Assessment, form=AssessmentForm, extra=4, can_delete=True)
+
+class AccountForm(UserCreationForm):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'size': '26'}))
+
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
+

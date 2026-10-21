@@ -13,10 +13,21 @@
 
     <form action="" method="post">
         {% csrf_token %}
+
+        <h4>Account Details</h4>
         <table>
-            {{ form.as_table }}
+            {{ account_form.as_table }}
         </table>
-        <br> <br>
+
+        <br> 
+
+        <h4>Teacher Details</h4>
+        <table>
+            {{ teacher_form.as_table }}
+        </table>
+
+        <br> 
+
         <button class="btn btn-primary"> Submit </button>
     </form>
 

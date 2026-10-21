@@ -1,0 +1,178 @@
+{% load static %}
+
+<html>
+<head>
+    <title></title>
+
+    <link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/cerulean/bootstrap.css" />
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+
+<body>
+    <h2>Teacher Dashboard</h2>
+
+    <h3>Teachers</h3>
+
+    {% if teachers %}
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Subjects</th>
+        </tr>
+
+        {% for teacher in teachers %}
+        <tr>
+            <td>{{teacher.user.first_name}} {{teacher.user.last_name}}</td>
+            <td>{{teacher.user.email}}</td>
+            <td>{{teacher.department}}</td>
+            <td>
+                {% for subject in teacher.subjects.all %} {{subject.name}}{% if not forloop.last %},
+                {% endif %}
+                {% empty %} No subjects selected.
+                {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    {% else %}
+    No Teacher records.
+    {% endif %}
+
+    <br>
+
+    <h3>Students</h3>
+
+    {% if students %}
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Date of Birth</th>
+            <th>Year Level</th>
+            <th>Subjects</th>
+        </tr>
+
+        {% for student in students %}
+        <tr>
+            <td>{{student.user.first_name}} {{student.user.last_name}}</td>
+            <td>{{student.user.email}}</td>
+            <td>{{student.date_of_birth}}</td>
+            <td>{{student.year_level}}</td>
+            <td>
+                {% for subject in student.subjects.all %} {{subject.name}}{% if not forloop.last %},
+                {% endif %}
+                {% empty %} No subjects selected.
+                {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    {% else %}
+    No Student records.
+    {% endif %}
+
+    <br>
+
+    <h3>Units</h3>
+    {% if units %}
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Image</th>
+            <th>Course Code</th>
+            <th>Teacher</th>
+        </tr>
+
+        {% for unit in units %}
+        <tr>
+            <td>{{unit.name}}</td>
+
+            {% if unit.image %}
+            <td> <img src="{{unit.image.url}}" width="240" height="135" /> </td>
+
+            {% else %}
+            <td> No image uploaded! </td>
+            {% endif %}
+
+            <td>{{unit.course_code}}</td>
+            <td>{{unit.teacher}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    No Unit records.
+    {% endif %}
+
+    <br>
+
+    <h3>Unit Outlines</h3>
+    {% if outlines %}
+    <table>
+        <tr>
+            <th>Assessment Period</th>
+            <th>Course</th>
+            <th>Unit</th>
+            <th>Accreditation</th>
+            <th>Year Level</th>
+            <th>Unit Goals</th>
+            <th>Content Descriptions</th>
+            <th>Functions</th>
+        </tr>
+
+        {% for outline in outlines %}
+        <tr>
+            <td>{{outline.assessment_period}}</td>
+            <td>{{outline.course}}</td>
+            <td>{{outline.unit}}</td>
+            <td>{{outline.accreditation}}</td>
+            <td>{{outline.year_level}}</td>
+            <td>{{outline.unit_goals | linebreaks}}</td>
+            <td>{{outline.content_descriptions | linebreaks}}</td>
+            <td>
+                <a href="{% url 'report' outline.id %}">Download</a> <br>
+                <a href="{% url 'editOutline' outline.id %}"> Edit </a> <br>
+                <a href="{% url 'deleteOutline' outline.id %}"> Delete </a> <br>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    No Unit Outline records.
+    {% endif %}
+
+    <br>
+
+    <h3>Assessment Items</h3>
+    {% if assessments %}
+    <table>
+        <tr>
+            <th>Outline</th>
+            <th>Name</th>
+            <th>Assessment Type</th>
+            <th>Weighting</th>
+            <th>Due Date</th>
+        </tr>
+
+        {% for assessment in assessments %}
+        <tr>
+            <td>{{assessment.outline}}</td>
+            <td>{{assessment.name}}</td>
+            <td>{{assessment.assessment_type}}</td>
+            <td>{{assessment.weighting}}</td>
+            <td>{{assessment.due_date}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    No Assessment records.
+    {% endif %}
+
+    <br><br>
+
+    {% include 'navbar.html' %}
+</body>
+</html>
