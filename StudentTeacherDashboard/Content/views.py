@@ -51,7 +51,11 @@ def signIn(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('index')
+
+            if request.user.role == 'Student':
+                return redirect('studentDashboard')
+            else:
+                return redirect('teacherDashboard')
     else:
         form = AuthenticationForm()
 
@@ -85,7 +89,6 @@ def teacherForm(request):
 
     return render(request, 'Content/teacherForm.html', {'account_form': account_form, 'teacher_form': teacher_form})
 
-@login_required
 def studentForm(request):
     if request.method == 'POST':
         account_form = AccountForm(request.POST)
@@ -131,7 +134,7 @@ def unitOutlineForm(request):
     if request.user.role != 'Teacher':
         raise PermissionDenied("You must be signed in to a teacher account to create unit outline records.")
 
-    outline = UnitOutline(year=2026)
+    outline = UnitOutline(year=datetime.now().year)
 
     if request.method == 'POST':
         form = UnitOutlineForm(request.POST, instance=outline)

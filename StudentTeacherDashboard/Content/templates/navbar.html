@@ -6,7 +6,7 @@
         <li><a href="{% url 'index' %}">Home</a></li>
         <li><a href="{% url 'studentDashboard' %}">Student Dashboard</a></li>
         <li><a href="{% url 'signOut' %}">Sign Out</a></li>
-        
+
         {% elif user.role == 'Teacher' %}
         <li><a href="{% url 'index' %}">Home</a></li>
         <li><a href="{% url 'teacherDashboard' %}">Teacher Dashboard</a></li>
@@ -19,6 +19,7 @@
 
         {% else %}
         <li><a href="{% url 'index' %}">Home</a></li>
+        <li><a href="{% url 'studentForm' %}">Student Registration</a></li>
         <li><a href="{% url 'signIn' %}">Sign In</a></li>
 
         {% endif %}
