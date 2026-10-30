@@ -122,7 +122,7 @@ def unitForm(request):
 
         if form.is_valid():
             form.save()
-            return redirect('index')
+            return redirect('teacherDashboard')
 
     else:
         form = UnitForm()
@@ -144,7 +144,7 @@ def unitOutlineForm(request):
             outline = form.save()
             assessment_formset.instance = outline
             assessment_formset.save()
-            return redirect('index')
+            return redirect('teacherDashboard')
 
     else:
         form = UnitOutlineForm(instance=outline)
@@ -153,7 +153,7 @@ def unitOutlineForm(request):
     return render(request, 'Content/unitOutlineForm.html', {'form': form, 'assessment_formset': assessment_formset})
 
 @login_required
-def report(outline_id):
+def report(request, outline_id):
     outline = get_object_or_404(UnitOutline, pk=outline_id)
     response = FileResponse(generate_pdf(outline), as_attachment=True, filename=f"{outline.unit} Unit Outline {datetime.now().year}.pdf")
     return response
@@ -262,7 +262,7 @@ def editOutline(request, outline_id):
             outline = form.save()
             assessment_formset.instance = outline
             assessment_formset.save()
-            return redirect('index')
+            return redirect('teacherDashboard')
 
     else:
         form = UnitOutlineForm(instance=outline)
@@ -277,7 +277,7 @@ def deleteOutline(request, outline_id):
 
     outline = get_object_or_404(UnitOutline, pk=outline_id)
     outline.delete()
-    return redirect('index')
+    return redirect('teacherDashboard')
 
 def rubric(request):
     return render(request, 'Content/rubric.html')
